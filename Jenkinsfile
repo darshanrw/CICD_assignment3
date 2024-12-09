@@ -19,9 +19,10 @@ pipeline {
                     echo 'Installing Azure CLI...'
                     sh '''
                         #!/bin/bash -l
-                        if ! command -v az &> /dev/null
-                        then
-                            curl -sL https://aka.ms/InstallAzureCLIDeb | sudo -S bash
+                        if ! command -v az &> /dev/null; then
+                            curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+                        else
+                            echo "Azure CLI already installed."
                         fi
                     '''
                 }
@@ -33,45 +34,33 @@ pipeline {
                     echo 'Building the Python application...'
                     sh '''
                         #!/bin/bash -l
-                        python3 -m venv venv  # Create virtual environment
-                        . venv/bin/activate   # Activate virtual environment
-                        pip install -r requirements.txt  # Install dependencies
+                        python3 -m venv venv
+                        source venv/bin/activate
+                        pip install --upgrade pip
+                        pip install -r requirements.txt
                     '''
                 }
             }
         }
-        stage('Test 1: Basic Response') {
+        stage('Test: Basic Response') {
             steps {
                 script {
                     echo 'Running basic response test...'
                     sh '''
                         #!/bin/bash -l
-                        . venv/bin/activate
+                        source venv/bin/activate
                         pytest test.py
                     '''
                 }
             }
         }
-        // stage('Test 2: Response Code') {
-        //     steps {
-        //         script {
-        //             echo 'Running response code test...'
-        //             sh '''
-        //                 #!/bin/bash -l
-        //                 . venv/bin/activate
-        //                 pytest responscode.py
-        //             '''
-        //         }
-        //     }
-        // }
         stage('Package Function') {
             steps {
                 script {
                     echo 'Packaging the Azure Function...'
                     sh '''
                         #!/bin/bash -l
-                        zip -r function.zip *  # Create the function.zip file
-                        cd ..
+                        zip -r function.zip *
                     '''
                 }
             }
@@ -82,7 +71,6 @@ pipeline {
                     echo 'Deploying to Azure...'
                     sh '''
                         #!/bin/bash -l
-                        . venv/bin/activate
                         az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
                         az functionapp deployment source config-zip --resource-group $RESOURCE_GROUP --name $FUNCTION_APP_NAME --src function.zip
                     '''
@@ -94,7 +82,10 @@ pipeline {
         always {
             script {
                 echo 'Cleaning up...'
-                sh 'rm -rf function.zip'
+                sh '''
+                    #!/bin/bash -l
+                    rm -f function.zip
+                '''
             }
         }
         success {
