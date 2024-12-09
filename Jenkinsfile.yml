@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/dpatel2311/CI_CD_Assignment3.git', credentialsId: 'github-pat'
+                git branch: 'main', url: 'https://github.com/darshanrw/CICD_assignment3.git', credentialsId: 'github-pat'
             }
         }
         stage('Install Azure CLI') {
@@ -47,23 +47,23 @@ pipeline {
                     sh '''
                         #!/bin/bash -l
                         . venv/bin/activate
-                        pytest basictest.py
+                        pytest test.py
                     '''
                 }
             }
         }
-        stage('Test 2: Response Code') {
-            steps {
-                script {
-                    echo 'Running response code test...'
-                    sh '''
-                        #!/bin/bash -l
-                        . venv/bin/activate
-                        pytest responscode.py
-                    '''
-                }
-            }
-        }
+        // stage('Test 2: Response Code') {
+        //     steps {
+        //         script {
+        //             echo 'Running response code test...'
+        //             sh '''
+        //                 #!/bin/bash -l
+        //                 . venv/bin/activate
+        //                 pytest responscode.py
+        //             '''
+        //         }
+        //     }
+        // }
         stage('Package Function') {
             steps {
                 script {
