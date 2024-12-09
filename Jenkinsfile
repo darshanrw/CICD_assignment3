@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/darshanrw/CICD_assignment3.git', credentialsId: 'github-pat'
+                git branch: 'main', url: 'https://github.com/darshanrw/CICD_assignment3.git'
             }
         }
         stage('Install Azure CLI') {
