@@ -45,6 +45,7 @@ pipeline {
                     echo 'Running basic response test...'
                     sh '''
                         #!/bin/bash -l
+                        python3 -m venv venv
                         . venv/bin/activate
                         pytest test.py
                     '''

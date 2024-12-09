@@ -1,7 +1,7 @@
 import azure.functions as func
 import pytest
-from unittest.mock import Mock
-from . import main 
+import main
+from unittest.mock import Mock 
 
 def test_main():
     # Create a mock HTTP request
