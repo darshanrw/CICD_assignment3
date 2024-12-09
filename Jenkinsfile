@@ -58,9 +58,6 @@ pipeline {
                     echo 'Packaging the Azure Function...'
                     sh '''
                         #!/bin/bash -l
-                        python3 -m venv venv
-                        . venv/bin/activate
-                        sudo apt install zip -y
                         zip -r function.zip *
                     '''
                 }
