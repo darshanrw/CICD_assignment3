@@ -78,24 +78,24 @@ pipeline {
             }
         }
     }
-    post {
-    always {
-        node {
-            script {
-                echo 'Cleaning up...'
-                sh 'rm -rf function.zip'
-            }
-        }
-    }
-    success {
-        script {
-            echo 'Deployment successful!'
-        }
-    }
-    failure {
-        script {
-            echo 'Deployment failed. Please check the logs for details.'
-        }
-    }
-}
+//     post {
+//     always {
+//         node {
+//             script {
+//                 echo 'Cleaning up...'
+//                 sh 'rm -rf function.zip'
+//             }
+//         }
+//     }
+//     success {
+//         script {
+//             echo 'Deployment successful!'
+//         }
+//     }
+//     failure {
+//         script {
+//             echo 'Deployment failed. Please check the logs for details.'
+//         }
+//     }
+// }
 }
