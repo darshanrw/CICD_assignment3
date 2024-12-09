@@ -4,8 +4,8 @@ pipeline {
         AZURE_CLIENT_ID = credentials('azure-client-id')
         AZURE_CLIENT_SECRET = credentials('azure-client-secret')
         AZURE_TENANT_ID = credentials('azure-tenant-id')
-        RESOURCE_GROUP = credentials('resource_group')
-        FUNCTION_APP_NAME = credentials('app_name')
+        // RESOURCE_GROUP = credentials('resource_group')
+        // FUNCTION_APP_NAME = credentials('app_name')
     }
     stages {
         stage('Checkout') {
@@ -79,24 +79,22 @@ pipeline {
         }
     }
     post {
-        always {
+    always {
+        node {
             script {
                 echo 'Cleaning up...'
-                sh '''
-                    #!/bin/bash -l
-                    rm -f function.zip
-                '''
+                sh 'rm -rf function.zip'
             }
         }
-        success {
-            script {
-                echo 'Deployment successful!'
-            }
+    }
+    success {
+        script {
+            echo 'Deployment successful!'
         }
-        failure {
-            script {
-                echo 'Deployment failed. Please check the logs for details.'
-            }
+    }
+    failure {
+        script {
+            echo 'Deployment failed. Please check the logs for details.'
         }
     }
 }
