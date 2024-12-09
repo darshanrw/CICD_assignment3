@@ -58,6 +58,7 @@ pipeline {
                     echo 'Packaging the Azure Function...'
                     sh '''
                         #!/bin/bash -l
+                        sudo apt install zip -y
                         zip -r function.zip *
                     '''
                 }
