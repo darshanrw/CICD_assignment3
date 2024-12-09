@@ -79,23 +79,21 @@ pipeline {
         }
     }
     post {
-    always {
-        node {
+        always {
             script {
                 echo 'Cleaning up...'
                 sh 'rm -rf function.zip'
             }
         }
-    }
-    success {
-        script {
-            echo 'Deployment successful!'
+        success {
+            script {
+                echo 'Deployment successful!'
+            }
+        }
+        failure {
+            script {
+                echo 'Deployment failed. Please check the logs for details.'
+            }
         }
     }
-    failure {
-        script {
-            echo 'Deployment failed. Please check the logs for details.'
-        }
-    }
-}
 }
