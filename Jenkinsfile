@@ -13,21 +13,21 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/darshanrw/CICD_assignment3.git'
             }
         }
-        // stage('Install Azure CLI') {
-        //     steps {
-        //         script {
-        //             echo 'Installing Azure CLI...'
-        //             sh '''
-        //                 #!/bin/bash -l
-        //                 if ! command -v az &> /dev/null; then
-        //                     curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-        //                 else
-        //                     echo "Azure CLI already installed."
-        //                 fi
-        //             '''
-        //         }
-        //     }
-        // }
+         stage('Install Azure CLI') {
+             steps {
+                 script {
+                     echo 'Installing Azure CLI...'
+                     sh '''
+                         #!/bin/bash -l
+                         if ! command -v az &> /dev/null; then
+                             curl -sL https://aka.ms/InstallAzureCLIDeb | sudo -S bash
+                         else
+                             echo "Azure CLI already installed."
+                         fi
+                     '''
+                 }
+             }
+         }
         stage('Build') {
             steps {
                 script {
