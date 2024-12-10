@@ -9,8 +9,11 @@ def test_main():
     req.params = {}
     req.get_json = Mock(return_value={})
 
-    # Call the function via the app instance
-    response = app.main.functions["http_trigger1"].func(req)
+    # Retrieve the registered function by route name
+    function_handler = app.get_functions()["http_trigger1"]
+
+    # Call the function with the mock request
+    response = function_handler(req)
 
     # Validate the response
     assert response.status_code == 200
