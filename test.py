@@ -1,7 +1,7 @@
 import azure.functions as func
 import pytest
 from unittest.mock import Mock
-from function_app import app  # Import the app instance
+from function_app import main  # Import the function directly
 
 def test_main():
     # Create a mock HTTP request
@@ -9,11 +9,8 @@ def test_main():
     req.params = {}
     req.get_json = Mock(return_value={})
 
-    # Retrieve the registered function by route name
-    function_handler = app.get_functions()["http_trigger1"]
-
-    # Call the function with the mock request
-    response = function_handler(req)
+    # Call the function directly
+    response = main(req)
 
     # Validate the response
     assert response.status_code == 200
