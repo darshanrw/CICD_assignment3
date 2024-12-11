@@ -8,6 +8,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
  
     return func.HttpResponse(
-        "Hello, Prof Aagam!, Assignment3 Completed 8934575!",
+        "Hello, Professor Aagam! Assignment3 Completed 8934575!",
         status_code=200
     )

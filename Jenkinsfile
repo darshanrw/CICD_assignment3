@@ -13,21 +13,22 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/darshanrw/CICD_assignment3.git'
             }
         }
-         stage('Install Azure CLI') {
-             steps {
-                 script {
-                     echo 'Installing Azure CLI...'
-                     sh '''
-                         #!/bin/bash -l
-                         if ! command -v az &> /dev/null; then
-                             curl -sL https://aka.ms/InstallAzureCLIDeb | sudo -S bash
-                         else
-                             echo "Azure CLI already installed."
-                         fi
-                     '''
-                 }
-             }
-         }
+        stage('Install Azure CLI') {
+            steps {
+                script {
+                    echo 'Installing Azure CLI...'
+                    sh '''
+                        #!/bin/bash -l
+                        if ! command -v az &> /dev/null; then
+                            curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+                            export PATH=$PATH:/usr/bin
+                        else
+                            echo "Azure CLI already installed."
+                        fi
+                    '''
+                }
+            }
+        }
         stage('Build') {
             steps {
                 script {
@@ -45,7 +46,7 @@ pipeline {
                     echo 'Running basic response test...'
                     sh '''
                         #!/bin/bash -l
-                        python3 -m venv venv
+                       python3 -m venv venv
                         . venv/bin/activate
                         pytest test.py
                     '''
@@ -76,24 +77,24 @@ pipeline {
             }
         }
     }
-//     post {
-//     always {
-//         node {
-//             script {
-//                 echo 'Cleaning up...'
-//                 sh 'rm -rf function.zip'
-//             }
-//         }
-//     }
-//     success {
-//         script {
-//             echo 'Deployment successful!'
-//         }
-//     }
-//     failure {
-//         script {
-//             echo 'Deployment failed. Please check the logs for details.'
-//         }
-//     }
-// }
+    post {
+        always {
+            script {
+                echo 'Cleaning up...'
+                sh '''
+                    if [ -f function.zip ]; then rm -rf function.zip; fi
+                '''
+            }
+        }
+        success {
+            script {
+                echo 'Deployment successful!'
+            }
+        }
+        failure {
+            script {
+                echo 'Deployment failed. Please check the logs for details.'
+            }
+        }
+    }
 }
