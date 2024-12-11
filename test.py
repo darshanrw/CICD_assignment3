@@ -14,4 +14,4 @@ def test_main():
 
     # Validate the response
     assert response.status_code == 200
-    assert response.get_body().decode() == "Hello, Prof Aagam!, Assignment3 Completed 8934575!"
+    assert response.get_body().decode() == "Hello, Professor Aagam! Assignment3 Completed 8934575!"
